@@ -247,12 +247,64 @@
                 EV = (Your Odds × Pot × 0.95) - Your Wager
             </div>
             
-            <div class="tip-box">
-                <div class="point">
-                    <div class="point-icon">💡</div>
-                    <div class="point-text">Long-term EV is always slightly negative due to the 5% fee</div>
+            <div style="background: rgba(0, 0, 0, 0.2); padding: 15px; border-radius: 8px; margin: 15px 0;">
+                <h3 style="color: #fff; margin-top: 0; font-family: 'Courier New', monospace; letter-spacing: 1px;">7RY 7H3 C4LCUL470R:</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px;">
+                    <div style="flex: 1; min-width: 120px;">
+                        <label style="display: block; margin-bottom: 5px; color: #fff;">Your Wager (SOL):</label>
+                        <input type="number" id="wager" style="width: 100%; padding: 8px; border-radius: 4px; border: none; background: rgba(255,255,255,0.9);" placeholder="0.5">
+                    </div>
+                    <div style="flex: 1; min-width: 120px;">
+                        <label style="display: block; margin-bottom: 5px; color: #fff;">Total Pot (SOL):</label>
+                        <input type="number" id="pot" style="width: 100%; padding: 8px; border-radius: 4px; border: none; background: rgba(255,255,255,0.9);" placeholder="10">
+                    </div>
+                </div>
+                <button onclick="calculateEV()" style="background: linear-gradient(45deg, #7733ff, #3377ff); color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: bold;">Calculate EV</button>
+                <div style="margin-top: 15px; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 4px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span style="color: #fff;">Your Odds:</span>
+                        <span id="odds-result" style="color: #ff9955; font-weight: bold;">0%</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span style="color: #fff;">Expected Value:</span>
+                        <span id="ev-result" style="color: #33ff77; font-weight: bold;">0 SOL</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: #fff;">Should you play?</span>
+                        <span id="recommendation" style="font-weight: bold;">-</span>
+                    </div>
                 </div>
             </div>
+            
+            <script>
+                function calculateEV() {
+                    // Get input values
+                    const wager = parseFloat(document.getElementById('wager').value) || 0;
+                    const totalPot = parseFloat(document.getElementById('pot').value) || 0;
+                    
+                    // Calculate odds and EV
+                    let odds = 0;
+                    if (totalPot > 0) {
+                        odds = wager / totalPot;
+                    }
+                    
+                    const ev = (odds * totalPot * 0.95) - wager;
+                    
+                    // Display results
+                    document.getElementById('odds-result').textContent = (odds * 100).toFixed(2) + '%';
+                    document.getElementById('ev-result').textContent = ev.toFixed(4) + ' SOL';
+                    
+                    // Give recommendation
+                    const recommendation = document.getElementById('recommendation');
+                    if (ev > 0) {
+                        recommendation.textContent = 'Yes! +EV Play';
+                        recommendation.style.color = '#33ff77';
+                    } else {
+                        recommendation.textContent = 'No! -EV Play';
+                        recommendation.style.color = '#ff5555';
+                    }
+                }
+            </script>
             
             <div class="point">
                 <div class="point-icon">🔢</div>
@@ -374,6 +426,22 @@
                 <div class="point-icon">✅</div>
                 <div class="point-text">Remember: Have fun, play responsibly, and dont forget D4DDY-N0M4D is working on making this profitable so BE PATIENT!!! 😘</div>
             </div>
+            
+            <div class="point">
+                <div style="margin-top: 20px; text-align: center; width: 100%;">
+                    <div style="font-size: 24px; font-weight: bold; color: #FF1493; text-shadow: 0 0 10px #FF69B4; animation: heartbeat 1.5s infinite;">❤️ LOVE YOU FOREVER PISTOLANNE ❤️</div>
+                </div>
+            </div>
+            
+            <style>
+                @keyframes heartbeat {
+                    0% { transform: scale(1); }
+                    25% { transform: scale(1.1); }
+                    50% { transform: scale(1); }
+                    75% { transform: scale(1.1); }
+                    100% { transform: scale(1); }
+                }
+            </style>
         </div>
         
         <div class="footer" style="

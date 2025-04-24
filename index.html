@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solpot: Play Smart Guide</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #121230, #1f1f4d);
+            color: white;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            background: linear-gradient(45deg, #7733ff, #3377ff);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            animation: headerPulse 2s infinite alternate;
+        }
+        
+        .header h1 {
+            font-size: 2.6rem;
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            font-weight: 900;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ff0000, #00ff00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            animation: textGlow 1.5s ease-in-out infinite alternate;
+            text-shadow: 0 0 5px rgba(255,255,255,0.5);
+        }
+        
+        .section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border-left: 4px solid;
+        }
+        
+        .section h2 {
+            display: flex;
+            align-items: center;
+            margin-top: 0;
+            font-size: 1.5rem;
+            color: #ffffff;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ff0000, #00ff00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 5px rgba(255,255,255,0.5);
+            animation: textGlow 1.5s ease-in-out infinite alternate;
+        }
+        
+        .section h2 span {
+            margin-left: 10px;
+        }
+        
+        .blue {
+            border-color: #3377ff;
+        }
+        
+        .purple {
+            border-color: #9933ff;
+        }
+        
+        .green {
+            border-color: #33ff77;
+        }
+        
+        .orange {
+            border-color: #ff9933;
+        }
+        
+        .point {
+            display: flex;
+            margin-bottom: 12px;
+            align-items: flex-start;
+        }
+        
+        .point-icon {
+            flex-shrink: 0;
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .point-text {
+            flex-grow: 1;
+        }
+        
+        .highlight {
+            background: linear-gradient(45deg, #ff5577, #ff9955);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        .key-takeaway {
+            background: linear-gradient(45deg, #33cc77, #33aa99);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .footer {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ff0000, #00ff00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 5px rgba(255,255,255,0.5);
+            padding: 15px;
+            margin-top: 30px;
+            letter-spacing: 2px;
+            animation: glow 1.5s ease-in-out infinite alternate;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .emoji-bg {
+            font-size: 1.8rem;
+            margin-right: 10px;
+        }
+        
+        .formula {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 1.1rem;
+        }
+        
+        .tip-box {
+            background: rgba(51, 153, 255, 0.15);
+            border-left: 3px solid #33ccff;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 15px 0;
+        }
+        
+        .risk-box {
+            background: rgba(255, 102, 102, 0.15);
+            border-left: 3px solid #ff5555;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 15px 0;
+        }
+        
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px #fff, 0 0 10px #0ff, 0 0 15px #0ff;
+            }
+            to {
+                text-shadow: 0 0 10px #fff, 0 0 20px #ff0, 0 0 30px #f0f;
+            }
+        }
+        
+        @keyframes textGlow {
+            from {
+                text-shadow: 0 0 5px #fff, 0 0 10px #0ff, 0 0 15px #0ff;
+            }
+            to {
+                text-shadow: 0 0 10px #fff, 0 0 20px #ff0, 0 0 30px #f0f;
+            }
+        }
+        
+        @keyframes headerPulse {
+            from {
+                box-shadow: 0 0 10px #7733ff, 0 0 20px #3377ff;
+            }
+            to {
+                box-shadow: 0 0 20px #ff33cc, 0 0 40px #33ccff;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎮 Solpot: Play Smart Guide 🎮</h1>
+        </div>
+        
+        <div class="section blue">
+            <h2>🕹️ <span>G4M3 B4$1C$</span></h2>
+            
+            <div class="point">
+                <div class="point-icon">⏱️</div>
+                <div class="point-text">Rounds last approximately <span class="highlight">60 seconds</span></div>
+            </div>
+            
+            <div class="point">
+                <div class="point-icon">💰</div>
+                <div class="point-text">Enter any time by placing a wager in SOL</div>
+            </div>
+            
+            <div class="point">
+                <div class="point-icon">📊</div>
+                <div class="point-text">Your win chance = <span class="highlight">Your wager ÷ Total pot</span></div>
+            </div>
+            
+            <div class="point">
+                <div class="point-icon">🏆</div>
+                <div class="point-text">Winner selection is provably fair (using EOS block hash)</div>
+            </div>
+            
+            <div class="point">
+                <div class="point-icon">💸</div>
+                <div class="point-text">Winner takes <span class="highlight">95% of the pot</span> (5% platform fee)</div>
+            </div>
+        </div>
+        
+        <div class="section purple">
+            <h2>🧮 <span>UND3R$74ND1NG 7H3 M47H</span></h2>
+            
+            <div class="point">
+                <div class="point-icon">🎯</div>
+                <div class="point-text"><strong>Expected Value (EV) Formula:</strong></div>
+            </div>
+            
+            <div class="formula">
+                EV = (Your Odds × Pot × 0.95) - Your Wager
+            </div>
+            
+            <div class="tip-box">
+                <div class="point">
+                    <div class="point-icon">💡</div>
+                    <div class="point-text">Long-term EV is always slightly negative due to the 5% fee</div>
+                </div>
+            </div>
+            
+            <div class="point">
+                <div class="point-icon">🔢</div>
+                <div class="point-text">Multiple entries increase your odds proportionally</div>
+            </div>
+            
+            <div class="point">
+                <div class="point-icon">⚖️</div>
+                <div class="point-text">Your odds improve when: <span class="highlight">Your wager is large compared to the pot</span></div>
+            </div>
+        </div>
+        
+        <div class="section green">
+            <h2>🧠 <span>$M4R7 $7R473GY</span></h2>
+            
+            <div class="point">
+                <div class="point-icon">⏰</div>
+                <div class="point-text"><strong>Entry Timing:</strong></div>
+            </div>
+            
+            <div class="point">
+                <div class="point-icon">➡️</div>
+                <div class="point-text"><u>Early Entry:</u> Higher initial % of pot, but can be diluted by later players</div>
+            </div>
+            
+            <div class="point">
+                <div class="point-icon">➡️</div>
+                <div class="point-text"><u>Late Entry:</u> "Snipe" with a big bet when the pot is small</div>
+            </div>
+            
+            <div class="point">
+                <div class="point-icon">🔍</div>
+                <div class="point-text"><strong>Pot Size Strategy:</strong></div>
+            </div>
+            
+            <div class="point">
+                <div class="point-icon">➡️</div>
+                <div class="point-text"><span class="highlight">Small pots</span> often give better EV (less competition)</div>
+            </div>
+            
+            <div class="point">
+                <div class="point-icon">➡️</div>
+                <div class="point-text">Best EV is when your wager is >50% of the pot (rare opportunity)</div>
+            </div>
+            
+            <div class="tip-box">
+                <div class="point">
+                    <div class="point-icon">🕵️‍♀️</div>
+                    <div class="point-text">Look for off-peak times with fewer players!</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section orange">
+            <h2>🛡️ <span>R3$P0N$1BL3 PL4Y</span></h2>
+            
+            <div class="point">
+                <div class="point-icon">💼</div>
+                <div class="point-text"><strong>Bankroll Management:</strong></div>
+            </div>
+            
+            <div class="point">
+                <div class="point-icon">➡️</div>
+                <div class="point-text">Never bet more than <span class="highlight">5-10%</span> of your bankroll per round</div>
+            </div>
+            
+            <div class="point">
+                <div class="point-icon">➡️</div>
+                <div class="point-text">Set strict win/loss limits before you start playing</div>
+            </div>
+            
+            <div class="risk-box">
+                <div class="point">
+                    <div class="point-icon">⚠️</div>
+                    <div class="point-text">Never chase losses! This leads to poor decisions</div>
+                </div>
+            </div>
+            
+            <div class="point">
+                <div class="point-icon">🧐</div>
+                <div class="point-text"><strong>Player Awareness:</strong></div>
+            </div>
+            
+            <div class="point">
+                <div class="point-icon">➡️</div>
+                <div class="point-text">Avoid rounds with "whale" players who snipe at the end</div>
+            </div>
+            
+            <div class="point">
+                <div class="point-icon">➡️</div>
+                <div class="point-text">Use platform rewards (airdrops, daily cases, spirit points)</div>
+            </div>
+        </div>
+        
+        <div class="section orange">
+            <h2>🌟 <span>K3Y 74K34W4Y$</span></h2>
+            
+            <div class="point">
+                <div class="point-icon">✅</div>
+                <div class="point-text">Always calculate your EV before betting</div>
+            </div>
+            
+            <div class="point">
+                <div class="point-icon">✅</div>
+                <div class="point-text">Target small pots with few players</div>
+            </div>
+            
+            <div class="point">
+                <div class="point-icon">✅</div>
+                <div class="point-text">Time your entries strategically</div>
+            </div>
+            
+            <div class="point">
+                <div class="point-icon">✅</div>
+                <div class="point-text">Stick to your bankroll rules</div>
+            </div>
+            
+            <div class="point">
+                <div class="point-icon">✅</div>
+                <div class="point-text">Remember: Have fun, play responsibly, and dont forget D4DDY-N0M4D is working on making this profitable so BE PATIENT!!! 😘</div>
+            </div>
+        </div>
+        
+        <div class="footer" style="
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ff0000, #00ff00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 5px rgba(255,255,255,0.5);
+            padding: 15px;
+            margin-top: 30px;
+            letter-spacing: 2px;
+            animation: glow 1.5s ease-in-out infinite alternate;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+        ">
+            [[ L0V1NGLY C0D3D & BR0UGH7 70 Y0U BY: N0M4D_D3V-0p$ ]]
+        </div>
+        <style>
+            @keyframes glow {
+                from {
+                    text-shadow: 0 0 5px #fff, 0 0 10px #0ff, 0 0 15px #0ff;
+                }
+                to {
+                    text-shadow: 0 0 10px #fff, 0 0 20px #ff0, 0 0 30px #f0f;
+                }
+            }
+        </style>
+    </div>
+</body>
+</html>

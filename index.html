@@ -1,4 +1,91 @@
-<!DOCTYPE html>
+<style>
+        @keyframes fire {
+            0% { transform: translateX(0) rotate(0deg); opacity: 1; }
+            10% { transform: translateX(5px) rotate(2deg); }
+            20% { transform: translateX(0) rotate(0deg); }
+            100% { transform: translateX(0) rotate(0deg); }
+        }
+        
+        @keyframes bullet {
+            0% { transform: translateX(35px) translateY(-5px); opacity: 0; width: 5px; }
+            5% { opacity: 1; }
+            100% { transform: translateX(150px) translateY(-5px); opacity: 0; width: 15px; }
+        }
+        
+        @keyframes flash {
+            0% { opacity: 0; transform: scale(0.5); }
+            5% { opacity: 0.9; transform: scale(1.2); }
+            20% { opacity: 0; transform: scale(1.5); }
+            100% { opacity: 0; }
+        }
+        
+        .gun-container {
+            position: relative;
+            width: 150px;
+            height: 80px;
+            margin: 0 auto;
+            margin-top: 20px;
+        }
+        
+        .gun {
+            width: 70px;
+            height: 40px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .gun-body {
+            position: absolute;
+            width: 40px;
+            height: 20px;
+            background: linear-gradient(45deg, #333, #666);
+            border-radius: 3px;
+            top: 10px;
+        }
+        
+        .gun-barrel {
+            position: absolute;
+            width: 35px;
+            height: 8px;
+            background: linear-gradient(to bottom, #555, #222);
+            border-radius: 2px;
+            top: 16px;
+            left: 35px;
+        }
+        
+        .gun-handle {
+            position: absolute;
+            width: 15px;
+            height: 25px;
+            background: linear-gradient(45deg, #444, #222);
+            border-radius: 2px;
+            top: 25px;
+            left: 10px;
+            transform: rotate(15deg);
+        }
+        
+        .gun-trigger {
+            position: absolute;
+            width: 5px;
+            height: 8px;
+            background-color: #111;
+            top: 32px;
+            left: 28px;
+        }
+        
+        .bullet {
+            position: absolute;
+            height: 4px;
+            width: 5px;
+            background: linear-gradient(to right, #ff9900, #ffcc00);
+            border-radius: 2px;
+            top: 20px;
+            left: 0;
+            opacity: 0;
+        }
+        
+        .flash {
+            <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -429,7 +516,40 @@
             
             <div class="point">
                 <div style="margin-top: 20px; text-align: center; width: 100%;">
-                    <div style="font-size: 24px; font-weight: bold; color: #FF1493; text-shadow: 0 0 10px #FF69B4; animation: heartbeat 1.5s infinite;">❤️ LOVE YOU FOREVER PISTOLANNE ❤️</div>
+                    <div style="font-size: 24px; font-weight: bold; color: #FF1493; text-shadow: 0 0 10px #FF69B4; animation: heartbeat 1.5s infinite;">LOVE YOU FOREVER PISTOLANNE ❤️</div>
+                    
+                    <div style="display: flex; justify-content: center; align-items: center; margin-top: 15px; gap: 20px;">
+                        <div class="gun-container">
+                            <div class="gun" onclick="fireGun()">
+                                <div class="gun-body"></div>
+                                <div class="gun-barrel"></div>
+                                <div class="gun-handle"></div>
+                                <div class="gun-trigger"></div>
+                            </div>
+                            <div class="bullet"></div>
+                            <div class="flash"></div>
+                        </div>
+                        
+                        <div class="slot-machine" onclick="playSlotMachine()">
+                            <div class="slot-body"></div>
+                            <div class="slot-display">
+                                <div class="slot-reel" id="reel1">
+                                    <div class="slot-symbol">💰</div>
+                                </div>
+                                <div class="slot-reel" id="reel2">
+                                    <div class="slot-symbol">💎</div>
+                                </div>
+                                <div class="slot-reel" id="reel3">
+                                    <div class="slot-symbol">🍒</div>
+                                </div>
+                            </div>
+                            <div class="slot-handle">
+                                <div class="handle-top"></div>
+                                <div class="handle-body"></div>
+                            </div>
+                            <div class="slot-base"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -441,7 +561,310 @@
                     75% { transform: scale(1.1); }
                     100% { transform: scale(1); }
                 }
+                
+                @keyframes fire {
+                    0% { transform: translateX(0) rotate(0deg); opacity: 1; }
+                    10% { transform: translateX(-5px) rotate(-5deg); }
+                    20% { transform: translateX(0) rotate(0deg); }
+                    100% { transform: translateX(0) rotate(0deg); }
+                }
+                
+                @keyframes bullet {
+                    0% { transform: translateX(35px) translateY(-5px); opacity: 0; width: 5px; }
+                    5% { opacity: 1; }
+                    100% { transform: translateX(150px) translateY(-5px); opacity: 0; width: 15px; }
+                }
+                
+                @keyframes flash {
+                    0% { opacity: 0; transform: scale(0.5); }
+                    5% { opacity: 0.9; transform: scale(1.2); }
+                    20% { opacity: 0; transform: scale(1.5); }
+                    100% { opacity: 0; }
+                }
+                
+                @keyframes pull-handle {
+                    0% { transform: rotate(0deg); }
+                    50% { transform: rotate(30deg); }
+                    100% { transform: rotate(0deg); }
+                }
+                
+                @keyframes spin-reel {
+                    0% { transform: translateY(0); }
+                    100% { transform: translateY(-300px); }
+                }
+                
+                @keyframes jackpot-flash {
+                    0% { box-shadow: 0 0 5px #ff0, 0 0 10px #ff0; }
+                    50% { box-shadow: 0 0 15px #ff0, 0 0 30px #ff0; }
+                    100% { box-shadow: 0 0 5px #ff0, 0 0 10px #ff0; }
+                }
+                
+                .gun-container {
+                    position: relative;
+                    width: 80px;
+                    height: 60px;
+                }
+                
+                .gun {
+                    width: 70px;
+                    height: 40px;
+                    position: relative;
+                    cursor: pointer;
+                }
+                
+                .gun-body {
+                    position: absolute;
+                    width: 40px;
+                    height: 20px;
+                    background: linear-gradient(45deg, #333, #666);
+                    border-radius: 3px;
+                    top: 10px;
+                }
+                
+                .gun-barrel {
+                    position: absolute;
+                    width: 35px;
+                    height: 8px;
+                    background: linear-gradient(to bottom, #555, #222);
+                    border-radius: 2px;
+                    top: 16px;
+                    left: 35px;
+                }
+                
+                .gun-handle {
+                    position: absolute;
+                    width: 15px;
+                    height: 25px;
+                    background: linear-gradient(45deg, #444, #222);
+                    border-radius: 2px;
+                    top: 25px;
+                    left: 10px;
+                    transform: rotate(15deg);
+                }
+                
+                .gun-trigger {
+                    position: absolute;
+                    width: 5px;
+                    height: 8px;
+                    background-color: #111;
+                    top: 32px;
+                    left: 28px;
+                }
+                
+                .bullet {
+                    position: absolute;
+                    height: 4px;
+                    width: 5px;
+                    background: linear-gradient(to right, #ff9900, #ffcc00);
+                    border-radius: 2px;
+                    top: 20px;
+                    left: 0;
+                    opacity: 0;
+                }
+                
+                .flash {
+                    position: absolute;
+                    width: 20px;
+                    height: 20px;
+                    background: radial-gradient(circle, #ffdd00, #ff6600);
+                    border-radius: 50%;
+                    top: 10px;
+                    left: 65px;
+                    opacity: 0;
+                }
+                
+                /* Slot Machine Styles */
+                .slot-machine {
+                    position: relative;
+                    width: 100px;
+                    height: 130px;
+                    cursor: pointer;
+                }
+                
+                .slot-body {
+                    position: absolute;
+                    width: 80px;
+                    height: 100px;
+                    background: linear-gradient(45deg, #cc0000, #ff3333);
+                    border-radius: 10px;
+                    border: 4px solid #aa0000;
+                    left: 5px;
+                    top: 0;
+                }
+                
+                .slot-display {
+                    position: absolute;
+                    width: 60px;
+                    height: 40px;
+                    background: #000;
+                    border: 2px solid #ffcc00;
+                    border-radius: 5px;
+                    top: 15px;
+                    left: 15px;
+                    display: flex;
+                    overflow: hidden;
+                }
+                
+                .slot-reel {
+                    width: 33.33%;
+                    height: 40px;
+                    overflow: hidden;
+                    text-align: center;
+                    font-size: 24px;
+                    line-height: 40px;
+                }
+                
+                .slot-symbol {
+                    height: 40px;
+                }
+                
+                .slot-handle {
+                    position: absolute;
+                    right: 5px;
+                    top: 15px;
+                }
+                
+                .handle-top {
+                    width: 15px;
+                    height: 15px;
+                    background: #ffcc00;
+                    border-radius: 50%;
+                }
+                
+                .handle-body {
+                    width: 8px;
+                    height: 40px;
+                    background: linear-gradient(to right, #aa8800, #ffcc00);
+                    margin-left: 3px;
+                }
+                
+                .slot-base {
+                    position: absolute;
+                    width: 90px;
+                    height: 20px;
+                    background: linear-gradient(to bottom, #aa0000, #770000);
+                    border-radius: 5px;
+                    bottom: 0;
+                    left: 0;
+                }
             </style>
+            
+            <script>
+                function fireGun() {
+                    const gun = document.querySelector('.gun');
+                    const bullet = document.querySelector('.bullet');
+                    const flash = document.querySelector('.flash');
+                    
+                    // Reset animations
+                    gun.style.animation = 'none';
+                    bullet.style.animation = 'none';
+                    flash.style.animation = 'none';
+                    
+                    // Trigger reflow
+                    void gun.offsetWidth;
+                    void bullet.offsetWidth;
+                    void flash.offsetWidth;
+                    
+                    // Start animations
+                    gun.style.animation = 'fire 0.5s ease-in-out';
+                    bullet.style.animation = 'bullet 0.5s linear';
+                    flash.style.animation = 'flash 0.5s linear';
+                    
+                    // Play gunshot sound
+                    const audio = new Audio('data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA/+M4wAAAAAAAAAAAAEluZm8AAAAPAAAAAwAAAbsAW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1v/+xDE1AAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUNIN0aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/+MYxAAAAANIAAAAAExBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV');
+                    audio.volume = 0.2;
+                    audio.play();
+                }
+                
+                function playSlotMachine() {
+                    const handle = document.querySelector('.slot-handle');
+                    const reels = document.querySelectorAll('.slot-reel');
+                    const slotBody = document.querySelector('.slot-body');
+                    
+                    // Reset animations
+                    handle.style.animation = 'none';
+                    reels.forEach(reel => {
+                        reel.innerHTML = '';
+                    });
+                    slotBody.style.animation = 'none';
+                    
+                    // Trigger reflow
+                    void handle.offsetWidth;
+                    
+                    // Pull handle
+                    handle.style.animation = 'pull-handle 1s ease-in-out';
+                    
+                    // Play slot sound
+                    const audio = new Audio('data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA/+M4wAAAAAAAAAAAAEluZm8AAAAPAAAAAwAAAbsAW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1v/+xDE1AAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUNIN0aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/+MYxAAAAANIAAAAAExBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV');
+                    audio.volume = 0.3;
+                    audio.play();
+                    
+                    // Define symbols
+                    const symbols = ['💰', '💎', '🍒', '7️⃣', '🔔', '⭐'];
+                    
+                    // Create spinning effect
+                    setTimeout(() => {
+                        reels.forEach((reel, index) => {
+                            // Create symbol stack for spinning animation
+                            for (let i = 0; i < 10; i++) {
+                                const symbolDiv = document.createElement('div');
+                                symbolDiv.className = 'slot-symbol';
+                                symbolDiv.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                                reel.appendChild(symbolDiv);
+                            }
+                            
+                            // Random final symbol (biased toward matching on jackpot)
+                            const random = Math.random();
+                            let finalSymbol;
+                            
+                            if (random < 0.1) {
+                                // 10% chance of all matching (jackpot)
+                                finalSymbol = '💰';
+                            } else {
+                                finalSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+                            }
+                            
+                            const finalSymbolDiv = document.createElement('div');
+                            finalSymbolDiv.className = 'slot-symbol';
+                            finalSymbolDiv.textContent = finalSymbol;
+                            reel.appendChild(finalSymbolDiv);
+                            
+                            // Animate reel
+                            setTimeout(() => {
+                                reel.style.transition = `transform ${1 + index * 0.2}s ease-out`;
+                                reel.style.transform = `translateY(-${10 * 40}px)`;
+                                
+                                // Check for jackpot after all reels stop
+                                if (index === 2) {
+                                    setTimeout(() => {
+                                        const finalSymbols = [];
+                                        reels.forEach(r => {
+                                            const lastSymbol = r.lastElementChild.textContent;
+                                            finalSymbols.push(lastSymbol);
+                                        });
+                                        
+                                        // Check if all symbols match
+                                        if (finalSymbols[0] === finalSymbols[1] && finalSymbols[1] === finalSymbols[2]) {
+                                            // Jackpot!
+                                            slotBody.style.animation = 'jackpot-flash 0.5s infinite';
+                                            
+                                            // Play jackpot sound
+                                            const jackpotAudio = new Audio('data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA/+M4wAAAAAAAAAAAAEluZm8AAAAPAAAAAwAAAbsAW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1v/+xDE1AAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUNIN0aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/+MYxAAAAANIAAAAAExBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV');
+                                            jackpotAudio.volume = 0.4;
+                                            jackpotAudio.play();
+                                            
+                                            // Stop flashing after 3 seconds
+                                            setTimeout(() => {
+                                                slotBody.style.animation = 'none';
+                                            }, 3000);
+                                        }
+                                    }, 1500);
+                                }
+                            }, 100);
+                        });
+                    }, 500);
+                }
+            </script>
         </div>
         
         <div class="footer" style="
